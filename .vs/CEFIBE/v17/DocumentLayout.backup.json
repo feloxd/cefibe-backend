@@ -1,0 +1,123 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\ELORA\\webs\\CEFIBE\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\ELORA\\webs\\CEFIBE\\controllers\\alumno.controller.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:controllers\\alumno.controller.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\ELORA\\webs\\CEFIBE\\config\\db.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:config\\db.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\ELORA\\webs\\CEFIBE\\public\\index.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:public\\index.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\ELORA\\webs\\CEFIBE\\index.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:index.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\ELORA\\webs\\CEFIBE\\frontend\\index.html.rtf||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\index.html.rtf||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\ELORA\\webs\\CEFIBE\\models\\Alumno.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:models\\Alumno.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "alumno.controller.js",
+              "DocumentMoniker": "C:\\ELORA\\webs\\CEFIBE\\controllers\\alumno.controller.js",
+              "RelativeDocumentMoniker": "controllers\\alumno.controller.js",
+              "ToolTip": "C:\\ELORA\\webs\\CEFIBE\\controllers\\alumno.controller.js",
+              "RelativeToolTip": "controllers\\alumno.controller.js",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2025-11-08T22:15:04.277Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "db.js",
+              "DocumentMoniker": "C:\\ELORA\\webs\\CEFIBE\\config\\db.js",
+              "RelativeDocumentMoniker": "config\\db.js",
+              "ToolTip": "C:\\ELORA\\webs\\CEFIBE\\config\\db.js",
+              "RelativeToolTip": "config\\db.js",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2025-11-08T22:14:38.237Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "index.html.rtf",
+              "DocumentMoniker": "C:\\ELORA\\webs\\CEFIBE\\frontend\\index.html.rtf",
+              "RelativeDocumentMoniker": "frontend\\index.html.rtf",
+              "ToolTip": "C:\\ELORA\\webs\\CEFIBE\\frontend\\index.html.rtf",
+              "RelativeToolTip": "frontend\\index.html.rtf",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAFFSURBVDhPY2SAgqysrHpGRsYGKBcXePD////AadOmXQDzgBwwDQLZ2dn/v379ChTCDR4/fvy/pKTkPdAyA6g2BiYoDQZcXFxQFnYgIyPDkJ\u002BfLwBUtx9mCKN0wef7TAxMCmAVOICMECPDsVpOKI\u002BB4cmTJwwtLS0fZs6cKcggW4Df2SCATQ3IyyDD4F6Ye/APw6fv/xmevINgEBskRgjADTh\u002B9y/D1af/GIqW/wTja0//M5y48xcqixvADbBUZgZq\u002BAd3wc7LfxgsVJihsrgB3AAtaUaGuYeAmpSZwIaB2CAxQgBugLY0E9jf7rosDCFmEJtBYoQAXAUfJyNDfQAb0ABmsEYQGyRGCKBYkWzPAqZBGmFsQoDlH8O/B3KF3wgmJIIAlDBIARgJCQS\u002Bf/8OZeEHyOqQPdpYWlpaD2UTAxoZGBgYACQu8ld9ftWGAAAAAElFTkSuQmCC",
+              "WhenOpened": "2025-11-04T01:32:38.779Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "index.js",
+              "DocumentMoniker": "C:\\ELORA\\webs\\CEFIBE\\index.js",
+              "RelativeDocumentMoniker": "index.js",
+              "ToolTip": "C:\\ELORA\\webs\\CEFIBE\\index.js",
+              "RelativeToolTip": "index.js",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2025-11-04T01:26:37.438Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Alumno.js",
+              "DocumentMoniker": "C:\\ELORA\\webs\\CEFIBE\\models\\Alumno.js",
+              "RelativeDocumentMoniker": "models\\Alumno.js",
+              "ToolTip": "C:\\ELORA\\webs\\CEFIBE\\models\\Alumno.js",
+              "RelativeToolTip": "models\\Alumno.js",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2025-11-04T01:10:38.845Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "index.html",
+              "DocumentMoniker": "C:\\ELORA\\webs\\CEFIBE\\public\\index.html",
+              "RelativeDocumentMoniker": "public\\index.html",
+              "ToolTip": "C:\\ELORA\\webs\\CEFIBE\\public\\index.html",
+              "RelativeToolTip": "public\\index.html",
+              "ViewState": "AgIAAEgAAAAAAAAAAAAAADQAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-11-04T01:10:16.878Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

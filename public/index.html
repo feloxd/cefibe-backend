@@ -1,0 +1,404 @@
+﻿<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CEFIBE - Centro de Formación Internacional de la Belleza</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* [Tu CSS original] */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+
+        .hero-bg {
+            background-image: linear-gradient(rgba(0, 28, 74, 0.6), rgba(0, 28, 74, 0.6)), url('https://images.pexels.com/photos/3992870/pexels-photo-3992870.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .brand-gradient {
+            background: linear-gradient(90deg, #001f4d, #003380);
+        }
+
+        .brand-gradient-hover:hover {
+            background: linear-gradient(90deg, #003380, #0047b3);
+        }
+
+        .cebibe-logo {
+            max-width: 200px;
+        }
+
+        #result-modal {
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        /* ESTILO PARA EL LOADER (Nuevo) */
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #003380;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+<body class="text-gray-700">
+
+    <header id="header" class="bg-white shadow-md sticky top-0 z-50 transition-all duration-300">
+        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <a href="#hero">
+                <img src="https://storage.googleapis.com/gemini-prod-us-west1-409903-assets-public/731737e6b0a649377669d675b63013d5" alt="Logo CEFIBE" class="cebibe-logo h-12 md:h-16 w-auto">
+            </a>
+            <div class="hidden md:flex space-x-8 items-center">
+                <a href="#about" class="text-gray-600 hover:text-[#001f4d] font-medium transition-colors">Quiénes Somos</a>
+                <a href="#values" class="text-gray-600 hover:text-[#001f4d] font-medium transition-colors">Valores</a>
+                <a href="#alumni" class="text-gray-600 hover:text-[#001f4d] font-medium transition-colors">Egresados</a>
+                <a href="#schools" class="text-gray-600 hover:text-[#001f4d] font-medium transition-colors">Academias</a>
+                <a href="#contact" class="px-6 py-2 text-white font-semibold rounded-lg shadow-md brand-gradient brand-gradient-hover transition-all duration-300 transform hover:scale-105">Contacto</a>
+            </div>
+            <div class="md:hidden">
+                <button id="mobile-menu-button" class="text-gray-600 focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden bg-white">
+            <a href="#about" class="block px-6 py-3 text-gray-600 hover:bg-gray-100">Quiénes Somos</a>
+            <a href="#values" class="block px-6 py-3 text-gray-600 hover:bg-gray-100">Valores</a>
+            <a href="#alumni" class="block px-6 py-3 text-gray-600 hover:bg-gray-100">Egresados</a>
+            <a href="#schools" class="block px-6 py-3 text-gray-600 hover:bg-gray-100">Academias</a>
+            <a href="#contact" class="block px-6 py-3 text-gray-600 hover:bg-gray-100">Contacto</a>
+        </div>
+    </header>
+
+    <main>
+        <section id="hero" class="hero-bg h-screen flex items-center justify-center text-white">
+            <div class="text-center px-4">
+                <h1 class="text-4xl md:text-6xl font-bold leading-tight mb-4 drop-shadow-lg">Formando Profesionales de Excelencia en Belleza</h1>
+                <p class="text-lg md:text-xl max-w-3xl mx-auto mb-8 text-gray-200 drop-shadow-md">Nuestra misión es inspirar y capacitar a la próxima generación de líderes en la industria de la belleza con estándares internacionales.</p>
+                <a href="#schools" class="px-8 py-3 bg-white text-[#001f4d] font-bold rounded-lg shadow-xl hover:bg-gray-200 transition-all duration-300 transform hover:scale-105">
+                    Explorar Academias
+                </a>
+            </div>
+        </section>
+
+        <section id="about" class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-[#001f4d]">Nuestro Compromiso con la Belleza</h2>
+                    <p class="text-lg mt-2 text-gray-600">Transformamos la pasión en una profesión de éxito global.</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <img src="https://images.pexels.com/photos/7761002/pexels-photo-7761002.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Sobre Nosotros" class="rounded-lg shadow-lg w-full h-auto">
+                    </div>
+                    <div class="space-y-8">
+                        <div>
+                            <h3 class="text-2xl font-semibold text-[#003380] mb-2">Misión</h3>
+                            <p class="text-gray-600 leading-relaxed">Proveer una formación integral y de vanguardia que dote a nuestros estudiantes de las competencias técnicas, creativas y empresariales necesarias para destacar y liderar en el competitivo mundo de la belleza internacional.</p>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-semibold text-[#003380] mb-2">Visión</h3>
+                            <p class="text-gray-600 leading-relaxed">Ser el centro de formación de referencia a nivel mundial, reconocido por la excelencia de sus egresados, su innovación constante y su impacto positivo en la profesionalización y el empoderamiento del sector de la belleza.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="values" class="py-20 bg-gray-50">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-[#001f4d]">Nuestros Valores</h2>
+                    <p class="text-lg mt-2 text-gray-600">Los pilares que guían cada una de nuestras acciones.</p>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="bg-white p-8 rounded-lg shadow-md text-center hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
+                        <div class="inline-block p-4 bg-[#e0e8f4] rounded-full mb-4">
+                            <svg class="w-8 h-8 text-[#003380]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2 text-gray-800">Pasión</h3>
+                        <p class="text-gray-600">El motor que nos impulsa a crear, enseñar y crecer.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-lg shadow-md text-center hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
+                        <div class="inline-block p-4 bg-[#e0e8f4] rounded-full mb-4">
+                            <svg class="w-8 h-8 text-[#003380]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2 text-gray-800">Superación</h3>
+                        <p class="text-gray-600">Buscamos constantemente superar límites y expectativas.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-lg shadow-md text-center hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
+                        <div class="inline-block p-4 bg-[#e0e8f4] rounded-full mb-4">
+                            <svg class="w-8 h-8 text-[#003380]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 20.417l4.5-3.05a1.5 1.5 0 011.686.035L12 18.732l2.814-1.876a1.5 1.5 0 011.686-.035L21 20.417c.205-2.723-.18-5.547-1.382-8.016z"></path></svg>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2 text-gray-800">Compromiso</h3>
+                        <p class="text-gray-600">Dedicados al éxito y desarrollo de cada estudiante.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-lg shadow-md text-center hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
+                        <div class="inline-block p-4 bg-[#e0e8f4] rounded-full mb-4">
+                            <svg class="w-8 h-8 text-[#003380]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9V3m0 18a9 9 0 009-9M3 12a9 9 0 019-9m-9 9h18m-9 9a9 9 0 009-9M3 12a9 9 0 009 9"></path></svg>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2 text-gray-800">Excelencia Global</h3>
+                        <p class="text-gray-600">Aplicamos estándares internacionales en toda nuestra formación.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-lg shadow-md text-center hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
+                        <div class="inline-block p-4 bg-[#e0e8f4] rounded-full mb-4">
+                            <svg class="w-8 h-8 text-[#003380]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L9.5 8.5 3 10l5.5 5.5L7 22l5-3.5 5 3.5-1.5-6.5L21 10l-6-1.5z" /></svg>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2 text-gray-800">Empoderamiento</h3>
+                        <p class="text-gray-600">Brindamos herramientas para que construyan su propio futuro.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-lg shadow-md text-center hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
+                        <div class="inline-block p-4 bg-[#e0e8f4] rounded-full mb-4">
+                            <svg class="w-8 h-8 text-[#003380]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2 text-gray-800">Innovación</h3>
+                        <p class="text-gray-600">Lideramos con las últimas tendencias y tecnologías del sector.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="alumni" class="py-20 bg-white">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-3xl md:text-4xl font-bold text-[#001f4d]">Verificación de Egresados</h2>
+                <p class="text-lg mt-2 mb-8 text-gray-600">Consulta la certificación de nuestros profesionales.</p>
+                <div class="max-w-xl mx-auto bg-gray-50 p-8 rounded-lg shadow-inner">
+                    <form id="alumni-form" class="flex flex-col sm:flex-row gap-4">
+                        <input type="text" id="matricula" name="matricula" placeholder="Introduce el número de matrícula" class="flex-grow w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#003380]">
+                        <button type="submit" class="px-8 py-3 text-white font-semibold rounded-lg shadow-md brand-gradient brand-gradient-hover transition-all duration-300 transform hover:scale-105">
+                            Verificar
+                        </button>
+                    </form>
+                    <div id="alumni-result" class="mt-6 text-left hidden"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="schools" class="py-20 bg-gray-50">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-[#001f4d]">Academias Certificadas</h2>
+                    <p class="text-lg mt-2 text-gray-600">Centros de formación que cumplen con nuestros estándares de excelencia.</p>
+                </div>
+                <div id="school-list" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <p class="text-center text-gray-500 col-span-full">Cargando academias...</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-[#001f4d]">Contáctanos</h2>
+                    <p class="text-lg mt-2 text-gray-600">Estamos aquí para ayudarte. Envíanos un mensaje.</p>
+                </div>
+                <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-10 bg-gray-50 p-8 rounded-lg shadow-inner">
+                    <div>
+                        <h3 class="text-2xl font-semibold text-gray-800 mb-4">Envía un Mensaje</h3>
+                        <form id="contact-form" class="space-y-4">
+                            <div>
+                                <label for="name" class="sr-only">Nombre</label>
+                                <input type="text" id="name" placeholder="Tu Nombre" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#003380]">
+                            </div>
+                            <div>
+                                <label for="email" class="sr-only">Correo</label>
+                                <input type="email" id="email" placeholder="Tu Correo Electrónico" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#003380]">
+                            </div>
+                            <div>
+                                <label for="message" class="sr-only">Mensaje</label>
+                                <textarea id="message" rows="5" placeholder="Tu Mensaje" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#003380]"></textarea>
+                            </div>
+                            <button id="contact-button" type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-lg font-medium text-white brand-gradient brand-gradient-hover transition-all duration-300">
+                                Enviar Mensaje
+                            </button>
+                        </form>
+                        <div id="contact-feedback" class="mt-4 text-center hidden"></div>
+                    </div>
+                    <div class="flex flex-col justify-center items-center md:items-start text-center md:text-left">
+                        <h3 class="text-2xl font-semibold text-gray-800 mb-4">Otras formas de contacto</h3>
+                        <p class="text-gray-600 mb-6">Contáctanos directamente a través de WhatsApp o correo electrónico para una respuesta más rápida.</p>
+                        <div class="flex flex-col sm:flex-row md:flex-col lg:flex-row gap-4 w-full">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // URL base de tu backend (¡Recuerda que corre en el puerto 5000!)
+        const API_BASE_URL = 'http://localhost:5000/api/v1';
+
+        // --- 1. LÓGICA DEL BUSCADOR DE EGRESADOS (Verificador) ---
+
+        document.getElementById('alumni-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const matriculaInput = document.getElementById('matricula');
+            const resultDiv = document.getElementById('alumni-result');
+            const matricula = matriculaInput.value.trim().toUpperCase();
+
+            resultDiv.innerHTML = '<p class="text-center text-gray-500">Buscando...</p>';
+            resultDiv.classList.remove('hidden');
+
+            if (!matricula) {
+                resultDiv.innerHTML = '<p class="text-center text-red-500 font-semibold">⚠️ Por favor, introduce una matrícula.</p>';
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/alumnos/verificar/${matricula}`);
+                const data = await response.json();
+
+                if (response.status === 404) {
+                    resultDiv.innerHTML = `
+                        <div class="p-4 bg-red-100 border-l-4 border-red-500 text-red-700 rounded-lg">
+                            <p class="font-bold">Matrícula No Válida</p>
+                            <p>No se encontró ningún egresado con la matrícula: <strong>${matricula}</strong>. La matrícula debe ser exacta.</p>
+                        </div>
+                    `;
+                } else if (response.ok) {
+                    const alumno = data.data;
+                    const escuela = alumno.Escuela || { nombre: 'N/A', ciudad: 'N/A', pais: 'N/A' };
+
+                    resultDiv.innerHTML = `
+                        <div class="p-6 bg-green-50 border-l-4 border-green-500 text-green-800 rounded-lg shadow-md">
+                            <h4 class="text-2xl font-bold mb-3 text-[#001f4d]">✅ Egresado Certificado</h4>
+                            <p class="mb-1"><strong>Matrícula:</strong> ${alumno.matricula}</p>
+                            <p class="mb-1"><strong>Nombre Completo:</strong> ${alumno.nombre} ${alumno.apellido}</p>
+                            <p class="mb-1"><strong>Curso:</strong> ${alumno.curso}</p>
+                            <p class="mb-1"><strong>Generación:</strong> ${alumno.generacion}</p>
+                            <hr class="my-3 border-green-200">
+                            <p class="mb-1 font-semibold text-lg text-green-700">Formación CEFIBE</p>
+                            <p class="mb-1"><strong>Academia:</strong> ${escuela.nombre}</p>
+                            <p><strong>Ubicación:</strong> ${escuela.ciudad}, ${escuela.pais}</p>
+                        </div>
+                    `;
+                } else {
+                    resultDiv.innerHTML = '<p class="text-center text-red-500 font-semibold">❌ Error en el servidor. Intenta de nuevo.</p>';
+                }
+            } catch (error) {
+                console.error('Error de conexión:', error);
+                resultDiv.innerHTML = '<p class="text-center text-red-500 font-semibold">🚨 Error de conexión. Asegúrate que el Backend esté corriendo en el puerto 5000.</p>';
+            }
+        });
+
+        // --- 2. LÓGICA DE CARGA DE ACADEMIAS ---
+
+        async function loadAcademias() {
+            const schoolListDiv = document.getElementById('school-list');
+            schoolListDiv.innerHTML = '<p class="text-center text-gray-500 col-span-full flex items-center justify-center"><span class="loader mr-2"></span> Cargando academias...</p>';
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/escuelas`);
+                const data = await response.json();
+
+                if (response.ok && data.data.length > 0) {
+                    schoolListDiv.innerHTML = '';
+
+                    data.data.forEach(school => {
+                        const badgeClass = school.status === 'Certificada'
+                            ? 'bg-green-100 text-green-800'
+                            : 'bg-yellow-100 text-yellow-800';
+
+                        const schoolCard = `
+                            <div class="bg-white rounded-lg shadow-md overflow-hidden transform hover:-translate-y-2 transition-all duration-300">
+                                <div class="p-6">
+                                    <div class="flex justify-between items-start mb-2">
+                                        <h3 class="text-xl font-bold text-gray-800">${school.nombre}</h3>
+                                        <span class="${badgeClass} text-xs font-semibold px-2.5 py-0.5 rounded-full">${school.status || 'En Proceso'}</span>
+                                    </div>
+                                    <p class="text-gray-600 mb-4">Contacto: ${school.contacto || 'No disponible'}</p>
+                                    <p class="text-gray-600">Ubicación: ${school.ciudad}, ${school.pais}</p>
+                                </div>
+                            </div>
+                        `;
+                        schoolListDiv.innerHTML += schoolCard;
+                    });
+                } else {
+                    schoolListDiv.innerHTML = '<p class="text-center text-gray-600 col-span-full">No hay academias certificadas registradas aún.</p>';
+                }
+            } catch (error) {
+                console.error('Error al cargar academias:', error);
+                schoolListDiv.innerHTML = '<p class="text-center text-red-500 col-span-full">🚨 Error al conectar con el servidor de academias.</p>';
+            }
+        }
+
+        // --- 3. LÓGICA DEL FORMULARIO DE CONTACTO ---
+
+        document.getElementById('contact-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const form = e.target;
+            const feedbackDiv = document.getElementById('contact-feedback');
+            const submitButton = document.getElementById('contact-button');
+
+            
+            const contactData = {
+                nombre: form.name.value.trim(),
+                email: form.email.value.trim(),
+                mensaje: form.message.value.trim()
+            };
+
+            
+            submitButton.innerHTML = '<span class="loader mr-2"></span> Enviando...';
+            submitButton.disabled = true;
+            feedbackDiv.classList.add('hidden');
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/contacto`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(contactData), 
+                });
+
+                const data = await response.json();
+
+                if (response.status === 201) {
+                    feedbackDiv.classList.remove('hidden');
+                    feedbackDiv.className = 'mt-4 p-3 bg-green-100 text-green-700 rounded-lg';
+                    feedbackDiv.innerHTML = '¡Mensaje enviado con éxito! Te responderemos pronto.';
+                    form.reset(); 
+                } else {
+                    feedbackDiv.classList.remove('hidden');
+                    feedbackDiv.className = 'mt-4 p-3 bg-red-100 text-red-700 rounded-lg';
+                    feedbackDiv.innerHTML = `Error: ${data.message || 'Hubo un error al enviar el mensaje.'}`;
+                }
+
+            } catch (error) {
+                console.error('Error de red:', error);
+                feedbackDiv.classList.remove('hidden');
+                feedbackDiv.className = 'mt-4 p-3 bg-red-100 text-red-700 rounded-lg';
+                feedbackDiv.innerHTML = '🚨 Error de conexión. Asegúrate que el servidor esté activo.';
+            } finally {
+                submitButton.innerHTML = 'Enviar Mensaje';
+                submitButton.disabled = false;
+            }
+        });
+
+        // --- LÓGICA DE INICIO ---
+
+        // Ejecutamos la carga de academias al iniciar la página
+        window.addEventListener('load', loadAcademias);
+    </script>
+</body>
+</html>
