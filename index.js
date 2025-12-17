@@ -1,19 +1,16 @@
-﻿// 1. IMPORTS PRINCIPALES
+// 1. IMPORTS PRINCIPALES
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const { connectDB } = require('./config/db');
 
-
-
 const Escuela = require('./models/Escuela');
 const Alumno = require('./models/Alumno');
 const Mensaje = require('./models/Mensaje');
 
-
+// 2. RELACIONES
 Escuela.hasMany(Alumno);
 Alumno.belongsTo(Escuela);
-// ------------------------------
 
 // 3. RUTAS (Imports)
 const escuelaRoutes = require('./routes/escuela.routes.js');
@@ -28,8 +25,8 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // 6. MIDDLEWARES
-// Configuración de CORS: Acepta peticiones del puerto 8080 (tu Frontend) y del CLIENT_URL
-app.use(cors({ origin: ['http://localhost:8080', process.env.CLIENT_URL] }));
+// CAMBIO CLAVE: Se configuró origin: '*' para permitir peticiones desde tu panel local y Hostinger
+app.use(cors({ origin: '*' })); 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -38,15 +35,12 @@ app.use('/api/v1/escuelas', escuelaRoutes);
 app.use('/api/v1/alumnos', alumnoRoutes);
 app.use('/api/v1/contacto', contactoRoutes);
 
-// Ruta raíz de prueba (GET /)
+// Ruta raíz de prueba
 app.get('/', (req, res) => {
     res.send('¡API de CEFIBE funcionando y conectada a la BD!');
 });
 
-// 8. MANEJADOR DE ERRORES (¡Al final!)
-// app.use(errorHandler); // Lo dejamos apagado
-
-// 9. INICIAR EL SERVIDOR (¡Esto DEBE ir al final de todo!)
+// 8. INICIAR EL SERVIDOR
 app.listen(PORT, () => {
-    console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
+    console.log(`🚀 Servidor corriendo en puerto: ${PORT}`);
 });
