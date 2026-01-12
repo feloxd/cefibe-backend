@@ -1,0 +1,215 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración CEFIBE</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .brand-bg {
+            background-color: #001f4d;
+        }
+
+        .brand-text {
+            color: #001f4d;
+        }
+
+        .btn-delete {
+            background-color: #ef4444;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+            .btn-delete:hover {
+                background-color: #dc2626;
+            }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans">
+
+    <header class="brand-bg text-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 py-4">
+            <h1 class="text-3xl font-bold">CEFIBE - Administración de Datos</h1>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 py-8">
+        <div id="alert-container" class="space-y-3 mb-6"></div>
+
+        <section id="escuelas-admin" class="bg-white p-6 rounded-lg shadow-xl mb-8">
+            <h2 class="text-2xl font-bold brand-text mb-4">1. Dar de Alta Nueva Academia</h2>
+            <form id="form-escuela" class="space-y-4" enctype="multipart/form-data">
+                <input type="text" name="nombre" placeholder="Nombre de la Academia (Obligatorio)" required class="w-full p-2 border rounded">
+                <input type="text" name="contacto" placeholder="Contacto / Teléfono" class="w-full p-2 border rounded">
+                <select name="status" class="w-full p-2 border rounded">
+                    <option value="Certificada">Certificada</option>
+                    <option value="En Proceso">En Proceso</option>
+                    <option value="Inactiva">Inactiva</option>
+                </select>
+                <input type="text" name="ciudad" placeholder="Ciudad" class="w-full p-2 border rounded">
+                <input type="text" name="pais" placeholder="País" class="w-full p-2 border rounded">
+
+                <div class="bg-gray-50 p-4 border-2 border-dashed rounded">
+                    <label class="block text-xs font-bold brand-text uppercase mb-2">Logo de la Academia</label>
+                    <input type="file" name="logo_url" accept="image/*" class="text-sm">
+                </div>
+
+                <button type="submit" class="w-full py-2 bg-green-600 text-white font-semibold rounded hover:bg-green-700 transition">
+                    Crear Academia (POST)
+                </button>
+            </form>
+        </section>
+
+        <section id="alumnos-admin" class="bg-white p-6 rounded-lg shadow-xl mb-8">
+            <h2 class="text-2xl font-bold brand-text mb-4">2. Dar de Alta Nuevo Egresado</h2>
+            <form id="form-alumno" class="space-y-4" enctype="multipart/form-data">
+                <input type="text" name="matricula" placeholder="Matrícula (Ej: CEFIBE-XXX)" required class="w-full p-2 border rounded uppercase">
+                <input type="text" name="nombre" placeholder="Nombre" required class="w-full p-2 border rounded">
+                <input type="text" name="apellido" placeholder="Apellido" required class="w-full p-2 border rounded">
+                <input type="text" name="curso" placeholder="Curso/Diplomado" class="w-full p-2 border rounded">
+                <input type="text" name="generacion" placeholder="Generación (Ej: 2025-A)" class="w-full p-2 border rounded">
+                <select name="EscuelaId" id="alumno-escuela-id" required class="w-full p-2 border rounded">
+                    <option value="" disabled selected>--- Seleccionar Academia ---</option>
+                </select>
+
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div class="bg-gray-50 p-4 border-2 border-dashed rounded">
+                        <label class="block text-xs font-bold brand-text uppercase mb-2">Foto del Egresado</label>
+                        <input type="file" name="foto_url" accept="image/*" class="text-sm">
+                    </div>
+                    <div class="bg-gray-50 p-4 border-2 border-dashed rounded">
+                        <label class="block text-xs font-bold brand-text uppercase mb-2">Certificado (Imagen)</label>
+                        <input type="file" name="certificado_url" accept="image/*" class="text-sm">
+                    </div>
+                </div>
+
+                <button type="submit" class="w-full py-2 bg-blue-600 text-white font-semibold rounded hover:bg-blue-700 transition">
+                    Crear Egresado (POST)
+                </button>
+            </form>
+        </section>
+
+        <section id="gestor-admin" class="bg-white p-6 rounded-lg shadow-xl">
+            <h2 class="text-2xl font-bold brand-text mb-4">3. Gestor de Registros (Eliminar)</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="border p-4 rounded">
+                    <h3 class="text-xl font-semibold mb-3 text-gray-700">Academias Creadas</h3>
+                    <div id="gestor-escuelas" class="space-y-2"><p>Cargando lista...</p></div>
+                </div>
+                <div class="border p-4 rounded">
+                    <h3 class="text-xl font-semibold mb-3 text-gray-700">Egresados Creados</h3>
+                    <div id="gestor-alumnos" class="space-y-2"><p>Cargando lista...</p></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const API_BASE_URL = 'https://cefibe-backend.onrender.com/api/v1';
+        const alertContainer = document.getElementById('alert-container');
+        const escuelaSelect = document.getElementById('alumno-escuela-id');
+
+        function showAlert(message, type = 'success') {
+            const bgColor = type === 'success' ? 'bg-green-100' : 'bg-red-100';
+            const textColor = type === 'success' ? 'text-green-800' : 'text-red-800';
+            const alertHtml = `
+                    <div class="${bgColor} ${textColor} p-4 rounded-lg flex justify-between items-center shadow-sm">
+                        <span>${type === 'success' ? '✅' : '❌'} ${message}</span>
+                        <button onclick="this.parentElement.remove()" class="font-bold">x</button>
+                    </div>`;
+            alertContainer.innerHTML = alertHtml + alertContainer.innerHTML;
+        }
+
+        async function loadEscuelasForSelect() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/escuelas`);
+                const data = await response.json();
+                if (response.ok) {
+                    escuelaSelect.innerHTML = '<option value="" disabled selected>--- Seleccionar Academia ---</option>';
+                    data.data.forEach(escuela => {
+                        const option = document.createElement('option');
+                        option.value = escuela.id;
+                        option.textContent = `${escuela.nombre} (${escuela.ciudad})`;
+                        escuelaSelect.appendChild(option);
+                    });
+                }
+                loadGestor();
+            } catch (error) { console.error('Error:', error); }
+        }
+
+        // ENVÍO DE ACADEMIA CON LOGO
+        document.getElementById('form-escuela').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            try {
+                const response = await fetch(`${API_BASE_URL}/escuelas`, {
+                    method: 'POST',
+                    body: formData // Enviamos FormData directamente
+                });
+                const data = await response.json();
+                if (response.status === 201) {
+                    showAlert(`Academia '${data.data.nombre}' creada.`);
+                    e.target.reset();
+                    loadEscuelasForSelect();
+                } else { showAlert(data.message, 'error'); }
+            } catch (error) { showAlert('Error de red.', 'error'); }
+        });
+
+        // ENVÍO DE EGRESADO CON FOTO Y CERTIFICADO
+        document.getElementById('form-alumno').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            try {
+                const response = await fetch(`${API_BASE_URL}/alumnos`, {
+                    method: 'POST',
+                    body: formData // Enviamos FormData directamente
+                });
+                const data = await response.json();
+                if (response.status === 201) {
+                    showAlert(`Egresado '${data.data.nombre}' creado.`);
+                    e.target.reset();
+                    loadGestor();
+                } else { showAlert(data.message, 'error'); }
+            } catch (error) { showAlert('Error de red.', 'error'); }
+        });
+
+        async function deleteRegistro(type, id) {
+            if (!confirm('¿Seguro que quieres eliminar este registro?')) return;
+            try {
+                const response = await fetch(`${API_BASE_URL}/${type}s/${id}`, { method: 'DELETE' });
+                if (response.ok) {
+                    showAlert('Registro eliminado.');
+                    loadGestor();
+                    loadEscuelasForSelect();
+                }
+            } catch (error) { showAlert('Error al eliminar.', 'error'); }
+        }
+
+        async function loadGestor() {
+            const gE = document.getElementById('gestor-escuelas');
+            const gA = document.getElementById('gestor-alumnos');
+            try {
+                const resE = await fetch(`${API_BASE_URL}/escuelas`);
+                const dataE = await resE.json();
+                gE.innerHTML = dataE.data.map(e => `
+                        <div class="flex justify-between items-center p-2 border-b">
+                            <span class="text-sm">${e.nombre}</span>
+                            <button onclick="deleteRegistro('escuela', ${e.id})" class="btn-delete text-xs">Borrar</button>
+                        </div>`).join('') || '<p>Sin datos.</p>';
+
+                const resA = await fetch(`${API_BASE_URL}/alumnos`);
+                const dataA = await resA.json();
+                gA.innerHTML = dataA.data.map(a => `
+                        <div class="flex justify-between items-center p-2 border-b">
+                            <span class="text-sm">${a.matricula}</span>
+                            <button onclick="deleteRegistro('alumno', ${a.id})" class="btn-delete text-xs">Borrar</button>
+                        </div>`).join('') || '<p>Sin datos.</p>';
+            } catch (e) { console.error('Error gestor:', e); }
+        }
+
+        window.addEventListener('load', loadEscuelasForSelect);
+    </script>
+</body>
+</html>
