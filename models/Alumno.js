@@ -2,11 +2,11 @@ const { DataTypes } = require('sequelize');
 const { sequelize } = require('../config/db');
 
 const Alumno = sequelize.define('Alumno', {
-   
+
     matricula: {
         type: DataTypes.STRING,
-        allowNull: false, 
-        unique: true      
+        allowNull: false,
+        unique: true
     },
     nombre: {
         type: DataTypes.STRING,
@@ -17,14 +17,23 @@ const Alumno = sequelize.define('Alumno', {
         allowNull: false,
     },
     generacion: {
-        type: DataTypes.STRING, 
+        type: DataTypes.STRING,
         allowNull: true,
     },
     curso: {
-        type: DataTypes.STRING, 
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
+    // NUEVOS CAMPOS PARA ARCHIVOS
+    foto_url: {
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
+    certificado_url: {
+        type: DataTypes.STRING,
         allowNull: true,
     }
-    
+
 });
 
 module.exports = Alumno;
