@@ -2,7 +2,7 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const path = require('path'); // Añadido para manejar rutas de archivos
+const path = require('path'); // AGREGADO: Necesario para manejar rutas de carpetas
 const { connectDB } = require('./config/db');
 
 const Escuela = require('./models/Escuela');
@@ -30,10 +30,9 @@ app.use(cors({ origin: '*' }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// --- CONFIGURACIÓN DE ARCHIVOS ESTÁTICOS ---
-// Esto permite que cuando entres a cefibe.com/uploads/foto.jpg se pueda ver la imagen
+// NUEVO: Servir la carpeta de subidas para que las fotos sean accesibles
 app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
-// También servimos la carpeta public por si acaso
+// NUEVO: Servir archivos estáticos del frontend si es necesario
 app.use(express.static('public'));
 
 // 7. RUTAS (Uso)
@@ -41,9 +40,8 @@ app.use('/api/v1/escuelas', escuelaRoutes);
 app.use('/api/v1/alumnos', alumnoRoutes);
 app.use('/api/v1/contacto', contactoRoutes);
 
-// Ruta raíz de prueba
 app.get('/', (req, res) => {
-    res.send('¡API de CEFIBE funcionando y conectada a la BD con soporte para archivos!');
+    res.send('¡API de CEFIBE funcionando y conectada a la BD!');
 });
 
 // 8. INICIAR EL SERVIDOR
