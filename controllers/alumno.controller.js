@@ -3,7 +3,49 @@ const Escuela = require('../models/Escuela');
 const ftpUploader = require('../ftpUploader');
 const fs = require('fs').promises;
 
+// --- NUEVA FUNCIÓN: Obtener todos los alumnos ---
+exports.getAllAlumnos = async (req, res, next) => {
+    try {
+        const alumnos = await Alumno.findAll({ include: Escuela });
+        res.status(200).json({
+            success: true,
+            count: alumnos.length,
+            data: alumnos,
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, message: 'Error del servidor' });
+    }
+};
 
+// --- NUEVA FUNCIÓN: Verificar por matrícula (Frontend) ---
+exports.verifyAlumnoByMatricula = async (req, res, next) => {
+    try {
+        const { matricula } = req.params;
+        const alumno = await Alumno.findOne({
+            where: { matricula: matricula },
+            include: {
+                model: Escuela,
+                attributes: ['nombre', 'ciudad', 'pais']
+            }
+        });
+
+        if (!alumno) {
+            return res.status(404).json({
+                success: false,
+                message: 'Matrícula no encontrada.',
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            data: alumno,
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, message: 'Error del servidor' });
+    }
+};
 
 exports.createAlumno = async (req, res, next) => {
     try {
@@ -63,7 +105,6 @@ exports.updateAlumno = async (req, res, next) => {
         let final_foto_url = alumno.foto_url;
         let final_certificado_url = alumno.certificado_url;
 
-        
         if (req.files && req.files['foto_url']) {
             if (alumno.foto_url) {
                 const oldFoto = alumno.foto_url.split('/').pop();
@@ -102,7 +143,6 @@ exports.deleteAlumno = async (req, res, next) => {
 
         if (!alumno) return res.status(404).json({ success: false, message: 'Alumno no encontrado.' });
 
-        
         if (alumno.foto_url) {
             const fotoName = alumno.foto_url.split('/').pop();
             await ftpUploader.deleteFile(fotoName).catch(console.error);
