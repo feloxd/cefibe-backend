@@ -67,5 +67,4 @@ class FTPUploader {
         }
     }
 }
-
 module.exports = new FTPUploader();
