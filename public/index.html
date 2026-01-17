@@ -282,6 +282,9 @@
             const resDiv = document.getElementById('alumni-result');
             if (!mat) return;
 
+            
+            const URL_HOSTINGER = 'https://cefibe.com/uploads/';
+
             resDiv.innerHTML = '<div class="loader mx-auto"></div>';
             resDiv.classList.remove('hidden');
 
@@ -291,18 +294,22 @@
                 if (res.ok && data.data) {
                     const al = data.data;
 
-                    // LÓGICA DE FOTOS INTEGRADA
-                    let fotoHtml = al.foto_url ? `<img src="${URL_UPLOADS}${al.foto_url}" class="w-32 h-32 object-cover rounded-full mx-auto mb-4 border-2 border-gold-accent shadow-lg">` : '';
-                    let certHtml = al.certificado_url ? `<div class="mt-4 pt-4 border-t border-gray-100"><p class="text-[10px] text-gray-400 font-bold uppercase mb-2">Documento de Certificación</p><img src="${URL_UPLOADS}${al.certificado_url}" class="w-full h-auto rounded shadow-sm"></div>` : '';
+                   
+                    const nombreFoto = al.foto_url ? al.foto_url.split('/').pop() : '';
+                    const nombreCert = al.certificado_url ? al.certificado_url.split('/').pop() : '';
+
+                    
+                    let fotoHtml = nombreFoto ? `<img src="${URL_HOSTINGER}${nombreFoto}" class="w-32 h-32 object-cover rounded-full mx-auto mb-4 border-2 border-gold-accent shadow-lg">` : '';
+                    let certHtml = nombreCert ? `<div class="mt-4 pt-4 border-t border-gray-100"><p class="text-[10px] text-gray-400 font-bold uppercase mb-2">Documento de Certificación</p><img src="${URL_HOSTINGER}${nombreCert}" class="w-full h-auto rounded shadow-sm"></div>` : '';
 
                     resDiv.innerHTML = `
-                                    <div class="p-6 bg-white border border-gray-100 shadow-xl rounded-lg text-center">
-                                        <p class="text-gold-accent font-bold text-[10px] tracking-widest mb-2 uppercase">Certificado Válido</p>
-                                        ${fotoHtml}
-                                        <h4 class="text-lg font-bold text-gray-900">${escapeHTML(al.nombre)} ${escapeHTML(al.apellido)}</h4>
-                                        <p class="text-xs text-gray-500 italic mt-1">${escapeHTML(al.curso)}</p>
-                                        ${certHtml}
-                                    </div>`;
+                <div class="p-6 bg-white border border-gray-100 shadow-xl rounded-lg text-center">
+                    <p class="text-gold-accent font-bold text-[10px] tracking-widest mb-2 uppercase">Certificado Válido</p>
+                    ${fotoHtml}
+                    <h4 class="text-lg font-bold text-gray-900">${escapeHTML(al.nombre)} ${escapeHTML(al.apellido)}</h4>
+                    <p class="text-xs text-gray-500 italic mt-1">${escapeHTML(al.curso)}</p>
+                    ${certHtml}
+                </div>`;
                 } else {
                     resDiv.innerHTML = '<p class="text-xs text-red-500 font-bold uppercase tracking-widest">Matrícula no encontrada</p>';
                 }
