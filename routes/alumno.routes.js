@@ -6,7 +6,6 @@ const path = require('path');
 // CONFIGURACIÓN DE ALMACENAMIENTO TEMPORAL
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        // Render usará esta carpeta temporalmente antes de mandar al FTP
         cb(null, 'public/uploads/');
     },
     filename: (req, file, cb) => {
@@ -16,30 +15,24 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
+// IMPORTANTE: Verifica que estos nombres coincidan con los 'exports' de tu controlador
 const {
     createAlumno,
     getAllAlumnos,
-    verifyAlumnoByMatricula,
+    verifyAlumnoByMatricula, // Si en el controlador se llama 'verificarAlumno', cámbialo aquí
     updateAlumno,
     deleteAlumno
 } = require('../controllers/alumno.controller.js');
 
-// Configuración de campos para Multer (reutilizable)
 const uploadFields = upload.fields([
     { name: 'foto_url', maxCount: 1 },
     { name: 'certificado_url', maxCount: 1 }
 ]);
 
 router.get('/', getAllAlumnos);
-
-// POST: Crear alumno con archivos
 router.post('/', uploadFields, createAlumno);
-
 router.get('/verificar/:matricula', verifyAlumnoByMatricula);
-
-// CAMBIO CLAVE: Agregamos uploadFields aquí para que updateAlumno pueda recibir nuevas fotos
 router.put('/:id', uploadFields, updateAlumno);
-
 router.delete('/:id', deleteAlumno);
 
 module.exports = router;
