@@ -3,10 +3,11 @@ const router = express.Router();
 const multer = require('multer');
 const path = require('path');
 
-// CONFIGURACIÓN DE ALMACENAMIENTO PARA ARCHIVOS
+// CONFIGURACIÓN DE ALMACENAMIENTO TEMPORAL
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'public/uploads/'); // Asegúrate de que esta carpeta exista
+        // Render usará esta carpeta temporalmente antes de mandar al FTP
+        cb(null, 'public/uploads/');
     },
     filename: (req, file, cb) => {
         cb(null, Date.now() + path.extname(file.originalname));
@@ -23,17 +24,22 @@ const {
     deleteAlumno
 } = require('../controllers/alumno.controller.js');
 
-router.get('/', getAllAlumnos);
-
-// CAMBIO CLAVE: Ahora aceptamos múltiples archivos (foto y certificado)
-router.post('/', upload.fields([
+// Configuración de campos para Multer (reutilizable)
+const uploadFields = upload.fields([
     { name: 'foto_url', maxCount: 1 },
     { name: 'certificado_url', maxCount: 1 }
-]), createAlumno);
+]);
+
+router.get('/', getAllAlumnos);
+
+// POST: Crear alumno con archivos
+router.post('/', uploadFields, createAlumno);
 
 router.get('/verificar/:matricula', verifyAlumnoByMatricula);
 
-router.put('/:id', updateAlumno);
+// CAMBIO CLAVE: Agregamos uploadFields aquí para que updateAlumno pueda recibir nuevas fotos
+router.put('/:id', uploadFields, updateAlumno);
+
 router.delete('/:id', deleteAlumno);
 
 module.exports = router;
