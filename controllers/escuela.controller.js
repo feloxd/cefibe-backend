@@ -1,10 +1,9 @@
-const Escuela = require('../models/Escuela'); // Importamos el molde
+const Escuela = require('../models/Escuela');
 
 // --- 1. OBTENER TODAS las escuelas ---
 exports.getAllEscuelas = async (req, res, next) => {
     try {
-        const escuelas = await Escuela.findAll(); // Busca todas
-
+        const escuelas = await Escuela.findAll();
         res.status(200).json({
             success: true,
             count: escuelas.length,
@@ -21,6 +20,9 @@ exports.createEscuela = async (req, res, next) => {
     try {
         const { nombre, contacto, status, ciudad, pais } = req.body;
 
+        // Si el middleware subió el archivo, el nombre estará en req.file.filename
+        const logo_url = req.file ? req.file.filename : null;
+
         if (!nombre) {
             return res.status(400).json({
                 success: false,
@@ -29,11 +31,12 @@ exports.createEscuela = async (req, res, next) => {
         }
 
         const nuevaEscuela = await Escuela.create({
-            nombre: nombre,
-            contacto: contacto,
-            status: status,
-            ciudad: ciudad,
-            pais: pais,
+            nombre,
+            contacto,
+            status,
+            ciudad,
+            pais,
+            logo_url // Guardamos el nombre del archivo en la base de datos
         });
 
         res.status(201).json({
@@ -62,12 +65,16 @@ exports.updateEscuela = async (req, res, next) => {
             });
         }
 
+        // Si se sube un nuevo logo, actualizamos el campo, si no, mantenemos el anterior
+        const logo_url = req.file ? req.file.filename : escuela.logo_url;
+
         await escuela.update({
-            nombre: nombre,
-            contacto: contacto,
-            status: status,
-            ciudad: ciudad,
-            pais: pais,
+            nombre,
+            contacto,
+            status,
+            ciudad,
+            pais,
+            logo_url
         });
 
         res.status(200).json({
