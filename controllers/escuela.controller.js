@@ -1,4 +1,5 @@
 const Escuela = require('../models/Escuela');
+const upload = require('../ftpUploader'); // Importamos el middleware para usar la lógica FTP
 
 // --- 1. OBTENER TODAS las escuelas ---
 exports.getAllEscuelas = async (req, res, next) => {
@@ -19,9 +20,14 @@ exports.getAllEscuelas = async (req, res, next) => {
 exports.createEscuela = async (req, res, next) => {
     try {
         const { nombre, contacto, status, ciudad, pais } = req.body;
+        let logo_url = null;
 
-        // Si el middleware subió el archivo, el nombre estará en req.file.filename
-        const logo_url = req.file ? req.file.filename : null;
+        // Si Multer recibió un archivo, lo subimos al FTP de Hostinger
+        if (req.file) {
+            // upload.ftp.uploadFile es la función que definimos en ftpUploader.js
+            await upload.ftp.uploadFile(req.file.path, req.file.filename);
+            logo_url = req.file.filename;
+        }
 
         if (!nombre) {
             return res.status(400).json({
@@ -36,7 +42,7 @@ exports.createEscuela = async (req, res, next) => {
             status,
             ciudad,
             pais,
-            logo_url // Guardamos el nombre del archivo en la base de datos
+            logo_url
         });
 
         res.status(201).json({
@@ -46,7 +52,7 @@ exports.createEscuela = async (req, res, next) => {
 
     } catch (error) {
         console.error(error);
-        res.status(500).json({ success: false, message: 'Error del servidor' });
+        res.status(500).json({ success: false, message: 'Error al crear academia' });
     }
 };
 
@@ -65,8 +71,13 @@ exports.updateEscuela = async (req, res, next) => {
             });
         }
 
-        // Si se sube un nuevo logo, actualizamos el campo, si no, mantenemos el anterior
-        const logo_url = req.file ? req.file.filename : escuela.logo_url;
+        let logo_url = escuela.logo_url;
+
+        // Si se sube un nuevo logo, lo mandamos al FTP y actualizamos el nombre
+        if (req.file) {
+            await upload.ftp.uploadFile(req.file.path, req.file.filename);
+            logo_url = req.file.filename;
+        }
 
         await escuela.update({
             nombre,
@@ -84,7 +95,7 @@ exports.updateEscuela = async (req, res, next) => {
 
     } catch (error) {
         console.error(error);
-        res.status(500).json({ success: false, message: 'Error del servidor' });
+        res.status(500).json({ success: false, message: 'Error al actualizar academia' });
     }
 };
 
@@ -101,6 +112,7 @@ exports.deleteEscuela = async (req, res, next) => {
             });
         }
 
+        // Opcional: Podrías añadir lógica aquí para borrar el archivo del FTP también
         await escuela.destroy();
 
         res.status(200).json({
