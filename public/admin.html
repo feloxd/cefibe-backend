@@ -53,7 +53,7 @@
 
                 <div class="bg-gray-50 p-4 border-2 border-dashed rounded">
                     <label class="block text-xs font-bold brand-text uppercase mb-2">Logo de la Academia</label>
-                    <input type="file" name="logo_url" accept="image/*" class="text-sm">
+                    <input type="file" name="logo" accept="image/*" class="text-sm">
                 </div>
 
                 <button type="submit" class="w-full py-2 bg-green-600 text-white font-semibold rounded hover:bg-green-700 transition">
@@ -115,10 +115,10 @@
             const bgColor = type === 'success' ? 'bg-green-100' : 'bg-red-100';
             const textColor = type === 'success' ? 'text-green-800' : 'text-red-800';
             const alertHtml = `
-                    <div class="${bgColor} ${textColor} p-4 rounded-lg flex justify-between items-center shadow-sm">
-                        <span>${type === 'success' ? '✅' : '❌'} ${message}</span>
-                        <button onclick="this.parentElement.remove()" class="font-bold">x</button>
-                    </div>`;
+                        <div class="${bgColor} ${textColor} p-4 rounded-lg flex justify-between items-center shadow-sm">
+                            <span>${type === 'success' ? '✅' : '❌'} ${message}</span>
+                            <button onclick="this.parentElement.remove()" class="font-bold">x</button>
+                        </div>`;
             alertContainer.innerHTML = alertHtml + alertContainer.innerHTML;
         }
 
@@ -139,22 +139,33 @@
             } catch (error) { console.error('Error:', error); }
         }
 
-        // ENVÍO DE ACADEMIA CON LOGO
+        // ENVÍO DE ACADEMIA CON LOGO CORREGIDO
         document.getElementById('form-escuela').addEventListener('submit', async (e) => {
             e.preventDefault();
+            const btn = e.target.querySelector('button');
+            btn.disabled = true; // Bloqueamos para evitar doble envío
+
             const formData = new FormData(e.target);
+
             try {
                 const response = await fetch(`${API_BASE_URL}/escuelas`, {
                     method: 'POST',
-                    body: formData // Enviamos FormData directamente
+                    body: formData // El navegador añade automáticamente multipart/form-data
                 });
+
                 const data = await response.json();
                 if (response.status === 201) {
-                    showAlert(`Academia '${data.data.nombre}' creada.`);
+                    showAlert(`Academia '${data.data.nombre}' creada con éxito.`);
                     e.target.reset();
                     loadEscuelasForSelect();
-                } else { showAlert(data.message, 'error'); }
-            } catch (error) { showAlert('Error de red.', 'error'); }
+                } else {
+                    showAlert(data.message || 'Error al crear academia', 'error');
+                }
+            } catch (error) {
+                showAlert('Error de red al conectar con el servidor.', 'error');
+            } finally {
+                btn.disabled = false;
+            }
         });
 
         // ENVÍO DE EGRESADO CON FOTO Y CERTIFICADO
@@ -164,7 +175,7 @@
             try {
                 const response = await fetch(`${API_BASE_URL}/alumnos`, {
                     method: 'POST',
-                    body: formData // Enviamos FormData directamente
+                    body: formData
                 });
                 const data = await response.json();
                 if (response.status === 201) {
@@ -194,18 +205,18 @@
                 const resE = await fetch(`${API_BASE_URL}/escuelas`);
                 const dataE = await resE.json();
                 gE.innerHTML = dataE.data.map(e => `
-                        <div class="flex justify-between items-center p-2 border-b">
-                            <span class="text-sm">${e.nombre}</span>
-                            <button onclick="deleteRegistro('escuela', ${e.id})" class="btn-delete text-xs">Borrar</button>
-                        </div>`).join('') || '<p>Sin datos.</p>';
+                            <div class="flex justify-between items-center p-2 border-b">
+                                <span class="text-sm">${e.nombre}</span>
+                                <button onclick="deleteRegistro('escuela', ${e.id})" class="btn-delete text-xs">Borrar</button>
+                            </div>`).join('') || '<p>Sin datos.</p>';
 
                 const resA = await fetch(`${API_BASE_URL}/alumnos`);
                 const dataA = await resA.json();
                 gA.innerHTML = dataA.data.map(a => `
-                        <div class="flex justify-between items-center p-2 border-b">
-                            <span class="text-sm">${a.matricula}</span>
-                            <button onclick="deleteRegistro('alumno', ${a.id})" class="btn-delete text-xs">Borrar</button>
-                        </div>`).join('') || '<p>Sin datos.</p>';
+                            <div class="flex justify-between items-center p-2 border-b">
+                                <span class="text-sm">${a.matricula}</span>
+                                <button onclick="deleteRegistro('alumno', ${a.id})" class="btn-delete text-xs">Borrar</button>
+                            </div>`).join('') || '<p>Sin datos.</p>';
             } catch (e) { console.error('Error gestor:', e); }
         }
 
