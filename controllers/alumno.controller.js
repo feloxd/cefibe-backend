@@ -62,18 +62,18 @@ exports.createAlumno = async (req, res, next) => {
         let final_foto_url = null;
         let final_certificado_url = null;
 
-        // Subida de Foto usando ftpUploader.ftp.uploadFile
+        // Subida de Foto (Sin el .ftp intermedio según logs)
         if (req.files && req.files['foto_url']) {
             const fotoFile = req.files['foto_url'][0];
-            const result = await ftpUploader.ftp.uploadFile(fotoFile.path, fotoFile.filename);
+            const result = await ftpUploader.uploadFile(fotoFile.path, fotoFile.filename);
             final_foto_url = result.url;
             await fs.unlink(fotoFile.path).catch(console.error);
         }
 
-        // Subida de Certificado usando ftpUploader.ftp.uploadFile
+        // Subida de Certificado
         if (req.files && req.files['certificado_url']) {
             const certFile = req.files['certificado_url'][0];
-            const result = await ftpUploader.ftp.uploadFile(certFile.path, certFile.filename);
+            const result = await ftpUploader.uploadFile(certFile.path, certFile.filename);
             final_certificado_url = result.url;
             await fs.unlink(certFile.path).catch(console.error);
         }
@@ -112,10 +112,10 @@ exports.updateAlumno = async (req, res, next) => {
         if (req.files && req.files['foto_url']) {
             if (alumno.foto_url) {
                 const oldFoto = alumno.foto_url.split('/').pop();
-                await ftpUploader.ftp.deleteFile(oldFoto).catch(console.error);
+                await ftpUploader.deleteFile(oldFoto).catch(console.error);
             }
             const fotoFile = req.files['foto_url'][0];
-            const result = await ftpUploader.ftp.uploadFile(fotoFile.path, fotoFile.filename);
+            const result = await ftpUploader.uploadFile(fotoFile.path, fotoFile.filename);
             final_foto_url = result.url;
             await fs.unlink(fotoFile.path).catch(console.error);
         }
@@ -123,10 +123,10 @@ exports.updateAlumno = async (req, res, next) => {
         if (req.files && req.files['certificado_url']) {
             if (alumno.certificado_url) {
                 const oldCert = alumno.certificado_url.split('/').pop();
-                await ftpUploader.ftp.deleteFile(oldCert).catch(console.error);
+                await ftpUploader.deleteFile(oldCert).catch(console.error);
             }
             const certFile = req.files['certificado_url'][0];
-            const result = await ftpUploader.ftp.uploadFile(certFile.path, certFile.filename);
+            const result = await ftpUploader.uploadFile(certFile.path, certFile.filename);
             final_certificado_url = result.url;
             await fs.unlink(certFile.path).catch(console.error);
         }
@@ -140,7 +140,7 @@ exports.updateAlumno = async (req, res, next) => {
     }
 };
 
-// --- 5. ELIMINAR egresado (Paso 1 corregido) ---
+// --- 5. ELIMINAR egresado ---
 exports.deleteAlumno = async (req, res, next) => {
     try {
         const { id } = req.params;
@@ -148,14 +148,14 @@ exports.deleteAlumno = async (req, res, next) => {
 
         if (!alumno) return res.status(404).json({ success: false, message: 'Alumno no encontrado.' });
 
-        // Corregido: usando ftpUploader.ftp.deleteFile
+        // Corregido: Llamada directa a deleteFile sin .ftp según logs
         if (alumno.foto_url) {
             const fotoName = alumno.foto_url.split('/').pop();
-            await ftpUploader.ftp.deleteFile(fotoName).catch(console.error);
+            await ftpUploader.deleteFile(fotoName).catch(console.error);
         }
         if (alumno.certificado_url) {
             const certName = alumno.certificado_url.split('/').pop();
-            await ftpUploader.ftp.deleteFile(certName).catch(console.error);
+            await ftpUploader.deleteFile(certName).catch(console.error);
         }
 
         await alumno.destroy();
