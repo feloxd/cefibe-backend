@@ -3,7 +3,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
-const { connectDB, sequelize } = require('./config/db'); // Importamos sequelize para sincronizar
+const { connectDB, sequelize } = require('./config/db');
 
 const Escuela = require('./models/Escuela');
 const Alumno = require('./models/Alumno');
@@ -40,15 +40,14 @@ app.get('/', (req, res) => {
     res.send('¡API de CEFIBE funcionando y conectada a la BD!');
 });
 
-// 7. CONEXIÓN Y SINCRONIZACIÓN (LA CLAVE)
+// 7. CONEXIÓN Y SINCRONIZACIÓN
 async function startServer() {
     try {
         await connectDB();
 
-        // Sincroniza el modelo con la tabla real. 
-        // alter: true agregará la columna logo_url sin borrar tus datos actuales.
-        await sequelize.sync({ alter: true });
-        console.log('✅ Base de datos sincronizada y actualizada');
+        // Sincronización estándar para mayor estabilidad en producción/Live
+        await sequelize.sync();
+        console.log('✅ Base de datos lista y conectada');
 
         app.listen(PORT, () => {
             console.log(`🚀 Servidor corriendo en puerto: ${PORT}`);
