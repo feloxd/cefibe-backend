@@ -1,7 +1,7 @@
 const Escuela = require('../models/Escuela');
-const upload = require('../ftpUploader'); // Importamos el middleware para usar la lógica FTP
+const upload = require('../ftpUploader');
+const fs = require('fs').promises;
 
-// --- 1. OBTENER TODAS las escuelas ---
 exports.getAllEscuelas = async (req, res, next) => {
     try {
         const escuelas = await Escuela.findAll();
@@ -16,17 +16,16 @@ exports.getAllEscuelas = async (req, res, next) => {
     }
 };
 
-// --- 2. CREAR una nueva escuela ---
 exports.createEscuela = async (req, res, next) => {
     try {
         const { nombre, contacto, status, ciudad, pais } = req.body;
         let logo_url = null;
+        const uploader = upload.ftp || upload;
 
-        // Si Multer recibió un archivo, lo subimos al FTP de Hostinger
         if (req.file) {
-            // upload.ftp.uploadFile es la función que definimos en ftpUploader.js
-            await upload.ftp.uploadFile(req.file.path, req.file.filename);
+            await uploader.uploadFile(req.file.path, req.file.filename);
             logo_url = req.file.filename;
+            await fs.unlink(req.file.path).catch(console.error);
         }
 
         if (!nombre) {
@@ -56,12 +55,10 @@ exports.createEscuela = async (req, res, next) => {
     }
 };
 
-// --- 3. ACTUALIZAR una escuela (por ID) ---
 exports.updateEscuela = async (req, res, next) => {
     try {
         const { id } = req.params;
         const { nombre, contacto, status, ciudad, pais } = req.body;
-
         const escuela = await Escuela.findByPk(id);
 
         if (!escuela) {
@@ -72,11 +69,16 @@ exports.updateEscuela = async (req, res, next) => {
         }
 
         let logo_url = escuela.logo_url;
+        const uploader = upload.ftp || upload;
 
-        // Si se sube un nuevo logo, lo mandamos al FTP y actualizamos el nombre
         if (req.file) {
-            await upload.ftp.uploadFile(req.file.path, req.file.filename);
+            if (escuela.logo_url) {
+                const oldFile = escuela.logo_url.split('/').pop();
+                try { await uploader.deleteFile(oldFile); } catch (e) { }
+            }
+            await uploader.uploadFile(req.file.path, req.file.filename);
             logo_url = req.file.filename;
+            await fs.unlink(req.file.path).catch(console.error);
         }
 
         await escuela.update({
@@ -99,7 +101,6 @@ exports.updateEscuela = async (req, res, next) => {
     }
 };
 
-// --- 4. ELIMINAR una escuela (por ID) ---
 exports.deleteEscuela = async (req, res, next) => {
     try {
         const { id } = req.params;
@@ -112,7 +113,17 @@ exports.deleteEscuela = async (req, res, next) => {
             });
         }
 
-        // Opcional: Podrías añadir lógica aquí para borrar el archivo del FTP también
+        const uploader = upload.ftp || upload;
+
+        if (escuela.logo_url) {
+            try {
+                const fileName = escuela.logo_url.split('/').pop();
+                await uploader.deleteFile(fileName);
+            } catch (err) {
+                console.error("Error borrando archivo en FTP:", err.message);
+            }
+        }
+
         await escuela.destroy();
 
         res.status(200).json({
