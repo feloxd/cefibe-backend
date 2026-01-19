@@ -2,8 +2,8 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const path = require('path'); // AGREGADO: Necesario para manejar rutas de carpetas
-const { connectDB } = require('./config/db');
+const path = require('path');
+const { connectDB, sequelize } = require('./config/db'); // Importamos sequelize para sincronizar
 
 const Escuela = require('./models/Escuela');
 const Alumno = require('./models/Alumno');
@@ -18,24 +18,20 @@ const escuelaRoutes = require('./routes/escuela.routes.js');
 const alumnoRoutes = require('./routes/alumno.routes.js');
 const contactoRoutes = require('./routes/contacto.routes.js');
 
-// 4. CONECTAR A LA BD
-connectDB();
-
-// 5. INICIAR APP
+// 4. INICIAR APP
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// 6. MIDDLEWARES
+// 5. MIDDLEWARES
 app.use(cors({ origin: '*' }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// NUEVO: Servir la carpeta de subidas para que las fotos sean accesibles
+// Servir la carpeta de subidas y archivos estáticos
 app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
-// NUEVO: Servir archivos estáticos del frontend si es necesario
 app.use(express.static('public'));
 
-// 7. RUTAS (Uso)
+// 6. RUTAS (Uso)
 app.use('/api/v1/escuelas', escuelaRoutes);
 app.use('/api/v1/alumnos', alumnoRoutes);
 app.use('/api/v1/contacto', contactoRoutes);
@@ -44,7 +40,22 @@ app.get('/', (req, res) => {
     res.send('¡API de CEFIBE funcionando y conectada a la BD!');
 });
 
-// 8. INICIAR EL SERVIDOR
-app.listen(PORT, () => {
-    console.log(`🚀 Servidor corriendo en puerto: ${PORT}`);
-});
+// 7. CONEXIÓN Y SINCRONIZACIÓN (LA CLAVE)
+async function startServer() {
+    try {
+        await connectDB();
+
+        // Sincroniza el modelo con la tabla real. 
+        // alter: true agregará la columna logo_url sin borrar tus datos actuales.
+        await sequelize.sync({ alter: true });
+        console.log('✅ Base de datos sincronizada y actualizada');
+
+        app.listen(PORT, () => {
+            console.log(`🚀 Servidor corriendo en puerto: ${PORT}`);
+        });
+    } catch (error) {
+        console.error('❌ Error al iniciar el servidor:', error);
+    }
+}
+
+startServer();
