@@ -18,7 +18,8 @@ exports.getAllEscuelas = async (req, res, next) => {
 
 exports.createEscuela = async (req, res, next) => {
     try {
-        const { nombre, contacto, status, ciudad, pais } = req.body;
+        // ACTUALIZADO: Se recibe 'matricula' del req.body
+        const { nombre, matricula, contacto, status, ciudad, pais } = req.body;
         let logo_url = null;
         const uploader = upload.ftp || upload;
 
@@ -37,6 +38,7 @@ exports.createEscuela = async (req, res, next) => {
 
         const nuevaEscuela = await Escuela.create({
             nombre,
+            matricula, // ACTUALIZADO
             contacto,
             status,
             ciudad,
@@ -58,7 +60,8 @@ exports.createEscuela = async (req, res, next) => {
 exports.updateEscuela = async (req, res, next) => {
     try {
         const { id } = req.params;
-        const { nombre, contacto, status, ciudad, pais } = req.body;
+        // ACTUALIZADO: Se recibe 'matricula' para permitir ediciones
+        const { nombre, matricula, contacto, status, ciudad, pais } = req.body;
         const escuela = await Escuela.findByPk(id);
 
         if (!escuela) {
@@ -83,6 +86,7 @@ exports.updateEscuela = async (req, res, next) => {
 
         await escuela.update({
             nombre,
+            matricula, // ACTUALIZADO
             contacto,
             status,
             ciudad,
