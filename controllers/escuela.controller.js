@@ -18,8 +18,19 @@ exports.getAllEscuelas = async (req, res, next) => {
 
 exports.createEscuela = async (req, res, next) => {
     try {
-        // ACTUALIZADO: Se recibe 'matricula' del req.body
-        const { nombre, matricula, contacto, status, ciudad, pais } = req.body;
+        // ACTUALIZADO: Se reciben los nuevos campos de belleza del req.body
+        const {
+            nombre,
+            matricula,
+            contacto,
+            status,
+            ciudad,
+            pais,
+            fecha_incorporacion,
+            maestra_responsable,
+            ramo
+        } = req.body;
+
         let logo_url = null;
         const uploader = upload.ftp || upload;
 
@@ -38,11 +49,14 @@ exports.createEscuela = async (req, res, next) => {
 
         const nuevaEscuela = await Escuela.create({
             nombre,
-            matricula, // ACTUALIZADO
+            matricula,
             contacto,
             status,
             ciudad,
             pais,
+            fecha_incorporacion, // NUEVO
+            maestra_responsable, // NUEVO
+            ramo,               // NUEVO
             logo_url
         });
 
@@ -60,8 +74,19 @@ exports.createEscuela = async (req, res, next) => {
 exports.updateEscuela = async (req, res, next) => {
     try {
         const { id } = req.params;
-        // ACTUALIZADO: Se recibe 'matricula' para permitir ediciones
-        const { nombre, matricula, contacto, status, ciudad, pais } = req.body;
+        // ACTUALIZADO: Se reciben los nuevos campos para permitir ediciones
+        const {
+            nombre,
+            matricula,
+            contacto,
+            status,
+            ciudad,
+            pais,
+            fecha_incorporacion,
+            maestra_responsable,
+            ramo
+        } = req.body;
+
         const escuela = await Escuela.findByPk(id);
 
         if (!escuela) {
@@ -86,11 +111,14 @@ exports.updateEscuela = async (req, res, next) => {
 
         await escuela.update({
             nombre,
-            matricula, // ACTUALIZADO
+            matricula,
             contacto,
             status,
             ciudad,
             pais,
+            fecha_incorporacion, 
+            maestra_responsable, 
+            ramo,               
             logo_url
         });
 
