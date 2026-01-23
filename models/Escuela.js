@@ -7,10 +7,29 @@ const Escuela = sequelize.define('Escuela', {
         allowNull: false,
         unique: true
     },
-    // NUEVA COLUMNA: Para que el buscador de Fer funcione por numero oficial
+    // Matricula para el buscador oficial solicitado por Fer
     matricula: {
         type: DataTypes.STRING(50),
-        allowNull: true, // Lo ponemos true por si hay escuelas viejas sin matricula, pero en el admin sera obligatorio
+        allowNull: true,
+    },
+    // NUEVOS CAMPOS: Ramos de belleza y administracion
+    fecha_incorporacion: {
+        type: DataTypes.DATEONLY, // Solo fecha YYYY-MM-DD
+        allowNull: true,
+    },
+    maestra_responsable: {
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
+    ramo: {
+        type: DataTypes.ENUM(
+            'Academia en Uñas',
+            'Academia de Barberia',
+            'Lashista',
+            'Maquillaje profesional',
+            'Spa'
+        ),
+        allowNull: true,
     },
     contacto: {
         type: DataTypes.STRING,
